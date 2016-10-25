@@ -22,7 +22,7 @@ function love.load(args)
   local blink = love.graphics.newImage('pinkie_blink.png')
 
   player = {
-    x = width / 2, y = height / 2,
+    x = 200, y = height - 200,
     i = { pinkie, blink },
     w = pinkie:getWidth(), h = pinkie:getHeight(),
     v = 300,
@@ -40,13 +40,15 @@ function love.load(args)
   for i = .5, 3, .5 do
     local stuff = {}
 
-    for j = 1, math.random(2, 15) do
+    local c = math.random(60, 80) * i
+
+    for j = 1, math.random(2, 8) do
       table.insert(stuff, {
-        x = math.random(100, width * 2 - 100),
-        y = math.random(100, height * 2 - 100),
-        w = math.random(50,400),
-        h = math.random(50,400),
-        c = { 70 * i, 70 * i, 70 * i },
+        x = 0,
+        y = math.random(100, height),
+        w = math.random(200, width * 2),
+        h = math.random(200, height),
+        c = { c, c, c },
       })
     end
 
@@ -66,12 +68,12 @@ function love.update(dt)
 
   local v = player.v * dt
 
-  if love.keyboard.isDown("up") then
-    player.y = player.y - v
-  end
-  if love.keyboard.isDown("down") then
-    player.y = player.y + v
-  end
+  -- if love.keyboard.isDown("up") then
+  --   player.y = player.y - v
+  -- end
+  -- if love.keyboard.isDown("down") then
+  --   player.y = player.y + v
+  -- end
   if love.keyboard.isDown("left") then
     player.x = player.x - v
     player.s = 1
@@ -80,6 +82,7 @@ function love.update(dt)
     player.x = player.x + v
     player.s = -1
   end
+
 
   player.x = math.clamp(player.x, player.w / 2, 2 * width - player.w / 2)
   player.y = math.clamp(player.y, player.h / 2, 2 * height - player.h / 2)
