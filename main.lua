@@ -22,10 +22,10 @@ function love.load(args)
   local blink = love.graphics.newImage('pinkie_blink.png')
 
   player = {
-    x = 200, y = height - 200,
+    x = 200, y = height * 2 - 200,
     i = { pinkie, blink },
     w = pinkie:getWidth(), h = pinkie:getHeight(),
-    v = 300,
+    vx = 300, vy = 0,
     s = -1,
     flip_timer = math.random(4, 10),
     idx = 1,
@@ -66,27 +66,29 @@ function love.focus(f) gameIsPaused = not f end
 function love.update(dt)
   if gameIsPaused then return end
 
-  local v = player.v * dt
-
-  -- if love.keyboard.isDown("up") then
-  --   player.y = player.y - v
-  -- end
-  -- if love.keyboard.isDown("down") then
-  --   player.y = player.y + v
-  -- end
-  if love.keyboard.isDown("left") then
-    player.x = player.x - v
+  -- movement
+  local vx = player.vx * dt
+  if love.keyboard.isDown('left') then
+    player.x = player.x - vx
     player.s = 1
   end
-  if love.keyboard.isDown("right") then
-    player.x = player.x + v
+  if love.keyboard.isDown('right') then
+    player.x = player.x + vx
     player.s = -1
   end
 
+  -- jump
+  if love.keyboard.isDown('space') then
+    player.vy = 500
+  end
+  player.y = player.y - player.vy * dt
+  player.vy = player.vy - 1000 * dt
 
+  -- bounds
   player.x = math.clamp(player.x, player.w / 2, 2 * width - player.w / 2)
   player.y = math.clamp(player.y, player.h / 2, 2 * height - player.h / 2)
 
+  -- track player
   camera:translate(player.x - width / 2, player.y - height / 2)
 
   -- blink!
