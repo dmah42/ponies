@@ -1,6 +1,7 @@
 require('camera')
 require('math')
 require('parallax')
+require('pony')
 
 math.randomseed(os.time())
 
@@ -16,20 +17,8 @@ function love.load(args)
   width = love.graphics.getWidth()
   height = love.graphics.getHeight()
 
-  t = 0
-
-  local pinkie = love.graphics.newImage('pinkie.png')
-  local blink = love.graphics.newImage('pinkie_blink.png')
-
-  player = {
-    x = 200, y = height * 2 - 200,
-    i = { pinkie, blink },
-    w = pinkie:getWidth(), h = pinkie:getHeight(),
-    vx = 300, vy = 0,
-    s = -1,
-    flip_timer = math.random(4, 10),
-    idx = 1,
-  }
+  pony:setPosition(200, height * 2 - 200)
+  pony:setPony(ponies.pinkie)
 
   box = {
     x = 0, y = 0,
@@ -64,45 +53,31 @@ end
 function love.focus(f) gameIsPaused = not f end
 
 function love.update(dt)
-  if gameIsPaused then return end
+  if gameIsPaused then
+    -- track pony
+    camera:translate(pony.x - width / 2, pony.y - height / 2)
+    return
+  end
 
   -- movement
-  local vx = player.vx * dt
+  -- local vx = pony.vx * dt
   if love.keyboard.isDown('left') then
-    player.x = player.x - vx
-    player.s = 1
+    pony:goleft()
   end
   if love.keyboard.isDown('right') then
-    player.x = player.x + vx
-    player.s = -1
+    pony:goright()
   end
 
   -- jump
   if love.keyboard.isDown('space') then
-    player.vy = 500
+    pony:jump()
   end
-  player.y = player.y - player.vy * dt
-  player.vy = player.vy - 1000 * dt
 
-  -- bounds
-  player.x = math.clamp(player.x, player.w / 2, 2 * width - player.w / 2)
-  player.y = math.clamp(player.y, player.h / 2, 2 * height - player.h / 2)
+  pony:update(dt, width, height)
 
-  -- track player
-  camera:translate(player.x - width / 2, player.y - height / 2)
+  -- track pony
+  camera:translate(pony.x - width / 2, pony.y - height / 2)
 
-  -- blink!
-  t = t + dt
-  if t > player.flip_timer then
-    if player.idx == 1 then
-      player.idx = 2
-      player.flip_timer = 0.3
-    elseif player.idx == 2 then
-      player.idx = 1
-      player.flip_timer = math.random(4, 10)
-    end
-    t = 0
-  end
 end
 
 function love.draw()
@@ -115,14 +90,17 @@ function love.draw()
   -- stuff
   parallax:draw()
 
-  -- player
-  love.graphics.draw(player.i[player.idx], player.x, player.y, 0, player.s, 1, player.w / 2, player.h / 2)
+  -- pony
+  pony:draw()
 
   camera:unset()
 
   love.graphics.setColor(0, 0, 0)
   love.graphics.print("FPS: " .. love.timer.getFPS(), 2, 2)
   love.graphics.print(camera._x .. " " .. camera._y, 2, 16)
+
+  love.graphics.print(pony.x .. " " .. pony.y, 2, 64)
+  love.graphics.print(pony._vx .. " " .. pony._vy, 2, 80)
 end
 
 function love.keypressed(key)

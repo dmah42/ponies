@@ -1,13 +1,14 @@
-camera = {}
-camera._x = 0
-camera._y = 0
-camera._scaleX = 1
-camera._scaleY = 1
-camera.rotation = 0
+camera = {
+  _x = 0,
+  _y = 0,
+  _scaleX = 1,
+  _scaleY = 1,
+  _rotation = 0
+}
 
 function camera:set()
   love.graphics.push()
-  love.graphics.rotate(-self.rotation)
+  love.graphics.rotate(-self._rotation)
   love.graphics.scale(1 / self._scaleX, 1 / self._scaleY)
   love.graphics.translate(-self._x, -self._y)
 end
@@ -22,7 +23,7 @@ function camera:move(dx, dy)
 end
 
 function camera:rotate(dr)
-  self.rotation = self.rotation + (dr or 0)
+  self._rotation = self._rotation + (dr or 0)
 end
 
 function camera:scale(sx, sy)
