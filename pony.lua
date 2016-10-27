@@ -1,11 +1,48 @@
-local pinkie = love.graphics.newImage('pinkie.png')
-local blink = love.graphics.newImage('pinkie_blink.png')
-local BLINK_TIMER = {4, 10}
-
 ponies = {
   pinkie = {
-    love.graphics.newImage('pinkie.png'),
-    love.graphics.newImage('pinkie_blink.png')
+    love.graphics.newImage('pinkie-0.png'),
+    love.graphics.newImage('pinkie-1.png'),
+    love.graphics.newImage('pinkie-2.png'),
+    love.graphics.newImage('pinkie-3.png'),
+    love.graphics.newImage('pinkie-4.png'),
+    love.graphics.newImage('pinkie-5.png'),
+    love.graphics.newImage('pinkie-6.png'),
+    love.graphics.newImage('pinkie-7.png'),
+  },
+  rarity = {
+    love.graphics.newImage('rarity-0.png'),
+    love.graphics.newImage('rarity-1.png'),
+    love.graphics.newImage('rarity-2.png'),
+    love.graphics.newImage('rarity-3.png'),
+    love.graphics.newImage('rarity-4.png'),
+    love.graphics.newImage('rarity-5.png'),
+    love.graphics.newImage('rarity-6.png'),
+    love.graphics.newImage('rarity-7.png'),
+    love.graphics.newImage('rarity-8.png'),
+    love.graphics.newImage('rarity-9.png'),
+    love.graphics.newImage('rarity-10.png'),
+    love.graphics.newImage('rarity-11.png'),
+    love.graphics.newImage('rarity-12.png'),
+    love.graphics.newImage('rarity-13.png'),
+    love.graphics.newImage('rarity-14.png'),
+    love.graphics.newImage('rarity-15.png'),
+  },
+  twilight = {
+    love.graphics.newImage('twilight-0.png'),
+    love.graphics.newImage('twilight-1.png'),
+    love.graphics.newImage('twilight-2.png'),
+    love.graphics.newImage('twilight-3.png'),
+    love.graphics.newImage('twilight-4.png'),
+    love.graphics.newImage('twilight-5.png'),
+    love.graphics.newImage('twilight-6.png'),
+    --love.graphics.newImage('twilight-7.png'),
+    --love.graphics.newImage('twilight-8.png'),
+    love.graphics.newImage('twilight-9.png'),
+    --love.graphics.newImage('twilight-10.png'),
+    love.graphics.newImage('twilight-11.png'),
+    love.graphics.newImage('twilight-12.png'),
+    love.graphics.newImage('twilight-13.png'),
+    love.graphics.newImage('twilight-14.png'),
   },
 }
 
@@ -13,7 +50,7 @@ pony = {
   _vx = 0,
   _vy = 0,
   _sx = -1,
-  _flip_timer = math.random(BLINK_TIMER[1], BLINK_TIMER[2]),
+  _flip_timer = 1/20,
   _idx = 1,
   _t = 0,
 }
@@ -25,18 +62,19 @@ end
 
 function pony:setPony(p)
   self._frames = p
+  self._numframes = table.getn(p)
   self._w = p[1]:getWidth()
   self._h = p[1]:getHeight()
 end
 
 function pony:goleft()
   self._vx = -300
-  self._sx = 1
+  self._sx = -1
 end
 
 function pony:goright()
   self._vx = 300
-  self._sx = -1
+  self._sx = 1
 end
 
 function pony:jump()
@@ -66,17 +104,18 @@ function pony:update(dt, width, height)
     self._vy = 0
   end
 
-  -- blink!
-  self._t = self._t + dt
-  if self._t > self._flip_timer then
-    if self._idx == 1 then
-      self._idx = 2
-      self._flip_timer = 0.3
-    elseif self._idx == 2 then
-      self._idx = 1
-      self._flip_timer = math.random(BLINK_TIMER[1], BLINK_TIMER[2])
+  -- animate!
+  if math.abs(self._vx) > 4 then
+    self._t = self._t + dt
+    if self._t > self._flip_timer then
+      self._idx = self._idx + 1
+      if self._idx == self._numframes then
+        self._idx = 1
+      end
+      self._t = 0
     end
-    self._t = 0
+  else
+    self._idx = 1
   end
 end
 

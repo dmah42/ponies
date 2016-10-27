@@ -18,7 +18,7 @@ function love.load(args)
   height = love.graphics.getHeight()
 
   pony:setPosition(200, height * 2 - 200)
-  pony:setPony(ponies.pinkie)
+  pony:setPony(ponies.twilight)
 
   box = {
     x = 0, y = 0,
@@ -106,6 +106,12 @@ end
 function love.keypressed(key)
   if key == ' ' then
     love.load()
+  elseif key == '1' then
+    pony:setPony(ponies.pinkie)
+  elseif key == '2' then
+    pony:setPony(ponies.twilight)
+  elseif key == '3' then
+    pony:setPony(ponies.rarity)
   elseif key == 'escape' then
     love.event.quit()
   end
