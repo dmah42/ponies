@@ -44,6 +44,58 @@ ponies = {
     love.graphics.newImage('twilight-13.png'),
     love.graphics.newImage('twilight-14.png'),
   },
+  applejack = {
+    love.graphics.newImage('applejack-0.png'),
+    love.graphics.newImage('applejack-1.png'),
+    love.graphics.newImage('applejack-2.png'),
+    love.graphics.newImage('applejack-3.png'),
+    love.graphics.newImage('applejack-4.png'),
+    love.graphics.newImage('applejack-5.png'),
+    love.graphics.newImage('applejack-6.png'),
+    love.graphics.newImage('applejack-7.png'),
+    love.graphics.newImage('applejack-8.png'),
+    love.graphics.newImage('applejack-9.png'),
+    love.graphics.newImage('applejack-10.png'),
+    love.graphics.newImage('applejack-11.png'),
+    love.graphics.newImage('applejack-12.png'),
+    love.graphics.newImage('applejack-13.png'),
+    love.graphics.newImage('applejack-14.png'),
+    love.graphics.newImage('applejack-15.png'),
+  },
+  fluttershy = {
+    love.graphics.newImage('fluttershy-0.png'),
+    love.graphics.newImage('fluttershy-1.png'),
+    love.graphics.newImage('fluttershy-2.png'),
+    love.graphics.newImage('fluttershy-3.png'),
+    love.graphics.newImage('fluttershy-4.png'),
+    love.graphics.newImage('fluttershy-5.png'),
+    love.graphics.newImage('fluttershy-6.png'),
+    love.graphics.newImage('fluttershy-7.png'),
+    love.graphics.newImage('fluttershy-8.png'),
+    love.graphics.newImage('fluttershy-9.png'),
+    love.graphics.newImage('fluttershy-10.png'),
+    love.graphics.newImage('fluttershy-11.png'),
+    love.graphics.newImage('fluttershy-12.png'),
+    love.graphics.newImage('fluttershy-13.png'),
+  },
+  rainbowdash = {
+    love.graphics.newImage('rainbowdash-0.png'),
+    love.graphics.newImage('rainbowdash-1.png'),
+    love.graphics.newImage('rainbowdash-2.png'),
+    love.graphics.newImage('rainbowdash-3.png'),
+    love.graphics.newImage('rainbowdash-4.png'),
+    love.graphics.newImage('rainbowdash-5.png'),
+    love.graphics.newImage('rainbowdash-6.png'),
+    love.graphics.newImage('rainbowdash-7.png'),
+    love.graphics.newImage('rainbowdash-8.png'),
+    love.graphics.newImage('rainbowdash-9.png'),
+    love.graphics.newImage('rainbowdash-10.png'),
+    love.graphics.newImage('rainbowdash-11.png'),
+    love.graphics.newImage('rainbowdash-12.png'),
+    love.graphics.newImage('rainbowdash-13.png'),
+    love.graphics.newImage('rainbowdash-14.png'),
+    love.graphics.newImage('rainbowdash-15.png'),
+  },
 }
 
 pony = {
@@ -61,6 +113,7 @@ function pony:setPosition(x, y)
 end
 
 function pony:setPony(p)
+  self._idx = 1
   self._frames = p
   self._numframes = table.getn(p)
   self._w = p[1]:getWidth()

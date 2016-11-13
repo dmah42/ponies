@@ -112,6 +112,12 @@ function love.keypressed(key)
     pony:setPony(ponies.twilight)
   elseif key == '3' then
     pony:setPony(ponies.rarity)
+  elseif key == '4' then
+    pony:setPony(ponies.applejack)
+  elseif key == '5' then
+    pony:setPony(ponies.fluttershy)
+  elseif key == '6' then
+    pony:setPony(ponies.rainbowdash)
   elseif key == 'escape' then
     love.event.quit()
   end
